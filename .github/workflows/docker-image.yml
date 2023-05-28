@@ -3,16 +3,20 @@ name: Docker Image CI
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
+    - name: Login to GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag tcp-spawner:$(date +%s)
+      run: docker build . --file Dockerfile --tag ghcr.io/danbulant/tcp-spawner:latest
+    - name: Tag the docker image (date)
+      run: docker tag ghcr.io/danbulant/tcp-spawner:latest ghcr.io/danbulant/tcp-spawner:$(date --iso-8601)
+    - name: Publish the Docker image
+      run: docker push ghcr.io/danbulant/tcp-spawner:$(date --iso-8601)
+    - name: Publish the Docker image
+      run: docker push ghcr.io/danbulant/tcp-spawner:latest

@@ -29,4 +29,7 @@ COPY --from=builder /usr/src/app/target/x86_64-unknown-linux-musl/release/tcp-sp
 
 EXPOSE 1337
 
+LABEL org.opencontainers.image.source=https://github.com/danbulant/ctf-tcp-server
+LABEL org.opencontainers.image.description="A simple TCP process spawner written in Rust."
+
 CMD ["tcp-spawner", "0.0.0.0:1337", "sh"]

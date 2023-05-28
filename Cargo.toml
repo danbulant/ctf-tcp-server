@@ -11,3 +11,4 @@ tokio-stream = "0.1"
 os_pipe = "1.1.4"
 tokio-util = { version = "0.7.8", features = ["compat"] }
 futures-util = { version = "0.3.28", features = ["io"] }
+nix = { version = "0.26.2", features = ["signal"] }

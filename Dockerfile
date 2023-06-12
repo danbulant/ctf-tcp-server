@@ -27,7 +27,7 @@ RUN cargo build
 #--target x86_64-unknown-linux-musl
 
 FROM debian:bookworm
-COPY --from=builder /usr/src/app/target/x86_64-unknown-linux-gnu/release/tcp-spawner /usr/local/bin
+COPY --from=builder /usr/src/app/target/release/tcp-spawner /usr/local/bin
 
 EXPOSE 1337
 

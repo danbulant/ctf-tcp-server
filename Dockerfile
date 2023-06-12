@@ -6,7 +6,7 @@ WORKDIR /usr/src
 RUN USER=root cargo new app
 
 ## Install target platform (Cross-Compilation) --> Needed for Alpine
-RUN rustup target add x86_64-unknown-linux-musl
+#RUN rustup target add x86_64-unknown-linux-musl
 
 # We want dependencies cached, so copy those first.
 COPY Cargo.toml Cargo.lock /usr/src/app/
@@ -15,17 +15,19 @@ COPY Cargo.toml Cargo.lock /usr/src/app/
 WORKDIR /usr/src/app
 
 # This is a dummy build to get the dependencies cached.
-RUN cargo build --target x86_64-unknown-linux-musl --release
+RUN cargo build --release
+#--target x86_64-unknown-linux-musl
 
 # Now copy in the rest of the sources
 COPY src /usr/src/app/src/
 
 RUN touch /usr/src/app/src/main.rs
 
-RUN cargo build --target x86_64-unknown-linux-musl --release
+RUN cargo build
+#--target x86_64-unknown-linux-musl
 
-FROM alpine:3.18
-COPY --from=builder /usr/src/app/target/x86_64-unknown-linux-musl/release/tcp-spawner /usr/local/bin
+FROM debian:bookworm
+COPY --from=builder /usr/src/app/target/x86_64-unknown-linux-gnu/release/tcp-spawner /usr/local/bin
 
 EXPOSE 1337
 

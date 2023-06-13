@@ -25,7 +25,7 @@ RUN touch /usr/src/app/src/main.rs
 
 RUN rm /usr/src/app/target -rf
 
-RUN cargo build
+RUN cargo build --release
 #--target x86_64-unknown-linux-musl
 
 FROM debian:bookworm

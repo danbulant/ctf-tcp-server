@@ -23,6 +23,8 @@ COPY src /usr/src/app/src/
 
 RUN touch /usr/src/app/src/main.rs
 
+RUN rm /usr/src/app/target -rf
+
 RUN cargo build
 #--target x86_64-unknown-linux-musl
 
